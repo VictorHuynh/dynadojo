@@ -243,9 +243,9 @@ def find_lyapunov_exponents(
 
 ## Maximum Lyapunov Exponent
 def find_max_lyapunov(spectrum0):
-    max_magnitude_number = spectrum0[0]
+    max_exp = spectrum0[0]
     for exp in spectrum0[1:]:
-        if abs(exp) > abs(max_magnitude_number):
+        if abs(exp) > abs(max_exp):
             max_exp = exp
     return max_exp
 
@@ -253,6 +253,10 @@ def find_max_lyapunov(spectrum0):
 def kaplan_yorke_dimension(spectrum0):
     """Calculate the Kaplan-Yorke dimension, given a list of
     Lyapunov exponents"""
+
+    if np.all(spectrum0 < 0):
+        return 0
+
     spectrum = np.sort(spectrum0)[::-1]
     d = len(spectrum)
     cspec = np.cumsum(spectrum)
